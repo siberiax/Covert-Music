@@ -2,6 +2,9 @@ import wave
 import struct
 import sys
 
+#
+# Dictionary of binary to the ascii character respresentation
+#
 binDict = {
     '00000': ' ',
     '00001': 'a',
@@ -32,14 +35,14 @@ binDict = {
     '11010': 'z'
 }
 
-#noise_output = wave.open('oise.wav', 'w')
-#noise_output.setparams((2, 2, 44100, 0, 'NONE', 'not compressed'))
-song = wave.open("CloserNew2.wav", 'r')
+song = wave.open("output.wav", 'r')
 print song.getnframes()
 
 message = ""
 term = 0
 for i in range(song.getnframes()):
+
+    # stop when there are 3 spaces (15 0s)
     if term >= 15:
         break
     data = song.readframes(1)
@@ -62,11 +65,8 @@ for i in range(song.getnframes()):
             message += '0'
             term += 1
         else:
-            #if (term == 15):
-            #    break
             message += '1'
             term = 0
-        #print message
 
 decodedMessage = ""
 currString = ""
